@@ -49,8 +49,8 @@ class Pen:
         pen.__dict__ = self.__dict__.copy()
         return pen
 
-    def highlighted(self):
+    def highlighted(self, color=(1, 0, 0, 1), fillcolor=(1, .8, .8, 1)):
         pen = self.copy()
-        pen.color = (1, 0, 0, 1)
-        pen.fillcolor = (1, .8, .8, 1)
+        pen.color = color
+        pen.fillcolor = fillcolor
         return pen

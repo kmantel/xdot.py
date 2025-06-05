@@ -63,7 +63,10 @@ class Shape:
     def select_pen(self, highlight):
         if highlight:
             if not hasattr(self, 'highlight_pen'):
-                self.highlight_pen = self.pen.highlighted()
+                if isinstance(highlight, tuple):
+                    self.highlight_pen = self.pen.highlighted(color=highlight, fillcolor=highlight)
+                else:
+                    self.highlight_pen = self.pen.highlighted()
             return self.highlight_pen
         else:
             return self.pen
@@ -725,6 +728,10 @@ class Graph(Shape):
             if bounding is None or edge._intersects(bounding):
                 should_highlight = any(e in highlight_items
                                        for e in (edge, edge.src, edge.dst))
+                if edge.src in highlight_items:
+                    should_highlight = (0, 1, 0, 1)
+                elif edge.dst in highlight_items:
+                    should_highlight = (1, 0, 1, 1)
                 edge._draw(cr, highlight=should_highlight, bounding=bounding)
 
     def draw(self, cr, highlight_items=None, bounding=None):
